@@ -31,56 +31,22 @@ function promisify(id?: string): PromiseCallbacks {
   return { promise, fnResolve, fnReject };
 }
 
-export function useTimedActionV1(fnAction: FnAction, delay: number, skipIfEnqueued: boolean, id?: string) {
-  //
-  const refTimer = useRef<NodeJS.Timeout>();
-  const refData = useRef(promisify(id));
-  const isEnqueued = useCallback(() => !!refTimer.current, []);
+type TimedActionConfig = {
+  callback?: FnAction;
+  delay?: number;
+  skipIfAlreadyEnqueued?: boolean;
+};
 
-  const enqueue = useCallback(() => {
-    if (refTimer.current) {
-      if (skipIfEnqueued) {
-        log('useTimedAction :: Already enqueued. Returning same promise...', id);
-        return refData.current.promise;
-      }
-      log('useTimedAction :: Cancelling...', id);
-      clearTimeout(refTimer.current);
-      refTimer.current = undefined;
-    }
-    refTimer.current = setTimeout(() => {
-      log('useTimedAction :: Executing and resolving promise...', id);
-      fnAction();
-      refTimer.current = undefined;
-      refData.current.fnResolve();
-      refData.current = promisify(id);
-    }, delay);
-    log('useTimedAction :: Enqueuing...', id);
-    return refData.current.promise;
-  }, [delay, fnAction, id, skipIfEnqueued]);
-
-  const cancel = useCallback(() => {
-    if (!refTimer.current) return false;
-    log('useTimedAction :: Cancelling and rejecting promise...', id);
-    clearTimeout(refTimer.current);
-    refData.current.fnReject();
-    refTimer.current = undefined;
-    refData.current = promisify(id);
-    return true;
-  }, [id]);
-
-  return { enqueue, cancel, isEnqueued };
-}
-
-export function useTimedActionV2(id?: string) {
+export function useTimedAction({ callback: defaultCallback, delay: defaultDelay, skipIfAlreadyEnqueued: defaultSkipIfAlreadyEnqueued }: TimedActionConfig, id?: string) {
   //
   const refTimer = useRef<NodeJS.Timeout>();
   const refData = useRef(promisify(id));
   const isEnqueued = useCallback(() => !!refTimer.current, []);
 
   const enqueue = useCallback(
-    (fnAction: FnAction, delay: number, skipIfEnqueued: boolean) => {
+    ({ callback: overrideCallback, delay: overrideDelay, skipIfAlreadyEnqueued: overrideSkipIfAlreadyEnqueued }: TimedActionConfig) => {
       if (refTimer.current) {
-        if (skipIfEnqueued) {
+        if (defaultSkipIfAlreadyEnqueued ?? overrideSkipIfAlreadyEnqueued) {
           log('useTimedAction :: Already enqueued. Returning same promise...', id);
           return refData.current.promise;
         }
@@ -90,15 +56,15 @@ export function useTimedActionV2(id?: string) {
       }
       refTimer.current = setTimeout(() => {
         log('useTimedAction :: Executing and resolving promise...', id);
-        fnAction();
+        (defaultCallback ?? overrideCallback ?? (() => {}))();
         refTimer.current = undefined;
         refData.current.fnResolve();
         refData.current = promisify(id);
-      }, delay);
+      }, defaultDelay ?? overrideDelay ?? 0);
       log('useTimedAction :: Enqueuing...', id);
       return refData.current.promise;
     },
-    [id]
+    [defaultCallback, defaultDelay, defaultSkipIfAlreadyEnqueued, id]
   );
 
   const cancel = useCallback(() => {

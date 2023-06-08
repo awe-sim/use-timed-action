@@ -2,12 +2,18 @@ import { useCallback, useRef } from 'react';
 
 const DEBUG = true;
 function log(message: string, id?: string) {
+  // eslint-disable-next-line no-console
   if (DEBUG && id) console.log(message, id);
 }
 
 export type FnAction = () => void;
+
+// eslint-disable-next-line no-unused-vars
 type FnResolve = (value: void | PromiseLike<void>) => void;
+
+// eslint-disable-next-line no-unused-vars
 type FnReject = (reason?: any) => void;
+
 type PromiseCallbacks = {
   promise: Promise<void>;
   fnResolve: FnResolve;

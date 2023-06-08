@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
-// import { FnAction, useTimedActionV1, useTimedActionV2 } from '../src/useTimedAction';
 import { act } from 'react-dom/test-utils';
-import { FnAction, useTimedActionV1, useTimedActionV2 } from '../src/useTimedAction';
+import { FnAction, useTimedActionV1, useTimedActionV2 } from '..';
 
 function makeHook1(fnAction: FnAction, delay: number, skipIfEnqueued: boolean, id: string) {
   return renderHook(() => useTimedActionV1(fnAction, delay, skipIfEnqueued, id));

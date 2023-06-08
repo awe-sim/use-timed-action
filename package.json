@@ -1,88 +1,79 @@
 {
   "name": "@awesim/use-timed-action",
   "version": "0.0.1",
-  "description": "This is a React hooks library package starter",
+  "description": "React hook to schedule an action after some time",
   "author": "Asim Sohail",
-  "license": "MIT",
-  "main": "lib/use-timed-action.cjs.js",
-  "module": "lib/use-timed-action.esm.js",
-  "types": "lib/index.d.ts",
+  "license": "Apache-2.0",
+  "repository": "awe-sim/use-timed-action",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
   "scripts": {
-    "prepack": "npm run clean && npm run prettier && npm run lint && npm run build",
-    "clean": "rimraf lib/*",
     "build": "rollup -c",
-    "test": "jest --coverage",
-    "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch",
+    "start": "rollup -c -w",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "lint": "eslint 'src/**/*.ts' --fix",
     "prettier": "prettier --write 'src/**/*.ts'",
-    "commit": "git-cz",
-    "semantic-release": "semantic-release"
+    "publish-npm": "yarn publish --access public"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/awe-sim/use-timed-action.git"
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/"
+    ]
   },
-  "keywords": [
-    "react",
-    "hooks"
-  ],
-  "bugs": {
-    "url": "https://github.com/awe-sim/use-timed-action/issues"
+  "peerDependencies": {
+    "react": ">= 16.8.0",
+    "react-dom": ">= 16.8.0"
   },
-  "homepage": "https://github.com/awe-sim/use-timed-action#readme",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.0.0",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/react-hooks": "^7.0.0",
-    "@tsconfig/create-react-app": "^1.0.2",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^20.2.5",
-    "@types/react": "^17.0.11",
-    "@typescript-eslint/parser": "^4.26.1",
-    "cz-conventional-changelog": "3.3.0",
-    "cz-emoji": "^1.3.1",
+    "@testing-library/react-hooks": "^3.4.1",
+    "@types/jest": "^26.0.7",
+    "@types/react": "^16.3.13",
+    "@types/react-dom": "^16.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^6.0.0",
-    "jest": "^27.0.4",
-    "lint-staged": "^11.0.0",
-    "prettier": "^2.3.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-test-renderer": "^17.0.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "semantic-release": "^17.4.3",
-    "semantic-release-gitmoji": "^1.3.4",
-    "ts-jest": "^27.0.3",
-    "typescript": "^4.3.2"
+    "jest": "^26.1.0",
+    "prettier": "^2.8.8",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-test-renderer": "^16.13.1",
+    "rollup": "^1.29.0",
+    "rollup-plugin-sass": "^1.2.2",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "rollup-plugin-uglify": "^6.0.4",
+    "ts-jest": "^26.1.3",
+    "typescript": "^3.8.3"
   },
-  "peerDependencies": {
-    "react": ">=16.8.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-emoji"
-    }
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.ts": [
-      "npm run prettier",
-      "npm run lint"
-    ]
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "react hooks",
+    "typescript",
+    "npm"
+  ],
+  "dependencies": {
+    "prop-types": "^15.7.2"
   }
 }

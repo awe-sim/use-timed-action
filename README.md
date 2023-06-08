@@ -1,60 +1,70 @@
-# [react-hooks-typescript-npm-starter](https://github.com/the-mes/react-hooks-typescript-npm-starter)
+# React Hook | useTimedAction
 
-[![NPM version](https://img.shields.io/npm/v/react-hooks-typescript-npm-starter?style=flat-square)](https://www.npmjs.com/package/react-hooks-typescript-npm-starter)
-[![NPM downloads](https://img.shields.io/npm/dm/react-hooks-typescript-npm-starter?style=flat-square)](https://www.npmjs.com/package/react-hooks-typescript-npm-starter)
-[![NPM license](https://img.shields.io/npm/l/react-hooks-typescript-npm-starter?style=flat-square)](https://www.npmjs.com/package/react-hooks-typescript-npm-starter)
-[![Codecov](https://img.shields.io/codecov/c/github/the-mes/react-hooks-typescript-npm-starter?style=flat-square)](https://codecov.io/gh/the-mes/react-hooks-typescript-npm-starter)
-[![Travis](https://img.shields.io/travis/com/the-mes/react-hooks-typescript-npm-starter/main?style=flat-square)](https://travis-ci.com/the-mes/react-hooks-typescript-npm-starter)
-[![Bundle size](https://img.shields.io/bundlephobia/min/react-hooks-typescript-npm-starter?style=flat-square)](https://bundlephobia.com/result?p=react-hooks-typescript-npm-starter)
+# 1. Introduction
 
-## About
+A useful hook that allows using `setTimeout` in a React way, while exposing a host of configuration and invocation options to allow the caller to customize behavior as needed.
 
-Short description about library
+The hook accepts an object with 3 optional properties:
+1. `callback`: The callback to be executed.
+1. `delay`: Delay in milliseconds after which the callback should be executed.
+1. `skipIfEnqueued`: Configures whether repeated `enqueue` calls are ignored if the callback has already been scheduled, but not executed yet.
 
-### Demo
+The hook returns an object with 4 methods:
+1. `enqueue`: Schedules, or re-schedules, a callback for delayed execution.
+1. `cancel`: Cancels execution of a scheduled callback.
+1. `inEnqueued`: Checks whether a callback has been scheduled for delayed execution.
 
-- [Live – check website](#)
-- [Playground – play with library in Storybook](#)
+### `enqueue()`
 
-### Similar Projects / Alternatives / Idea
+This method schedules or re-schedules a callback for delayed execution.
 
-- [example](#) by [John Doe](#)
-- [example-2](#) by [Jane Doe](#)
+It optionally accepts a configuration override object with the same properties as for hook initialization. This allows customizing the callback, delay and skip config on a per-invocation basis.
 
-## How to Install
+The method also returns a `Promise` that is resolved or rejected when the callback executes, or is cancelled. This enables caller code to resume after the callback has executed. Multiple `enqueue` calls return the same `Promise` instance as long as the callback is still enqueued. This means that if the caller is waiting on multiple `enqueue` promises, all of them will be resolved once the callback executes.
 
-First, install the library in your project by npm:
+The `skipIfEnqueued` property (initial or overridden) allows further customization of this method's behavior:
+- If `skipIfEnqueued = true`, multiple invocations of `enqueue` will not re-scheduled the callback, until it has been executed.
+- If `skipIfEnqueued = false`, multiple invocations of `enqueue` will cancel and re-schedule the callback.
+
+### `cancel()`
+
+This method cancels a previously scheduled callback and return `true`. Additionally, it causes the promises returned by `enqueue` method to be rejected. If no callback has been scheduled, the method returns `false`.
+
+### `isEnqueued()`
+
+This method returns a boolean value that indicates whether a callback has been scheduled (`true`) or not (`false`).
+
+# 2. Installation
 
 ```sh
-npm install react-hooks-typescript-npm-starter
+npm i --save @awesim/use-timed-action
+
+yarn add @awesim/use-timed-action
 ```
 
-Or Yarn:
+# 3. Usage
 
-```sh
-yarn add react-hooks-typescript-npm-starter
+```Typescript
+const myCallback = useCallback(() => {
+  console.log('My Callback');
+}, []);
+
+const { enqueue, cancel, isEnqueued } = useTimedAction({ 
+  callback: myCallback, 
+  delay: 1000, 
+  skipIfEnqueued: true 
+});
+
+const promise = enqueue();
+
+promise.then(() => {
+  console.log('Done!');
+}).catch(ex) => {
+  console.warn('Cancelled!');
+}
+
+setTimeout(() => {
+  cancel();
+}, 500);
+
 ```
-
-## Getting Started
-
-**• Import hook in React application file:**
-
-```js
-import { useMyHook } from 'react-hooks-typescript-npm-starter';
-```
-
-#### Returned Values
-
-<!-- TODO -->
-
-## Example
-
-```js
-const { sum } = useMyHook();
-
-const result = sum(2, 3); // 5
-```
-
-## License
-
-This project is licensed under the MIT License © 2021-present Jakub Biesiada

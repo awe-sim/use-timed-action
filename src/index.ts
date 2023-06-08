@@ -1,1 +1,2 @@
-export { useMyHook } from './useMyHook';
+export { useCounter } from './hooks/useCounter/';
+export { useTimedActionV1, useTimedActionV2 } from './hooks/useTimedAction';

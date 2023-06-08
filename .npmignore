@@ -1,10 +1,7 @@
-src
-__tests__
-coverage
-tsconfig.json
-.travis.yml
+dist
+.babelrc
+.storybook
+.gitignore
 .prettierrc
-.eslintrc.js
 rollup.config.js
-yarn-error.log
-.rpt2_cache
+tsconfig.json

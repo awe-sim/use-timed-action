@@ -1,6 +1,6 @@
 {
   "name": "@awesim/use-timed-action",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React hook to schedule an action after some time",
   "author": "Asim Sohail",
   "license": "Apache-2.0",

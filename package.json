@@ -1,10 +1,10 @@
 {
-  "name": "@nekogd/react-hook-npm-publish-boilerplate",
+  "name": "@awesim/use-timed-action",
   "version": "0.0.0",
   "description": "Modular utility hooks that we often use grouped in one package. Written in TypeScript, documented, tested and maintained.Disclaimer: at least React 16 is needed (the one with hooks ;) )",
-  "author": "nekogd",
+  "author": "Asim Sohail",
   "license": "Apache-2.0",
-  "repository": "nekogd/react-hook-npm-publish-boilerplate",
+  "repository": "awe-sim/use-timed-action",
   "main": "dist/index.js",
   "engines": {
     "node": ">=8",
@@ -13,7 +13,12 @@
   "scripts": {
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "prettier": "prettier --write 'src/**/*.ts'",
+    "publish-npm": "yarn publish --access public"
   },
   "jest": {
     "transform": {
@@ -38,10 +43,17 @@
     "@types/jest": "^26.0.7",
     "@types/react": "^16.3.13",
     "@types/react-dom": "^16.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
-    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "jest": "^26.1.0",
+    "prettier": "^2.8.8",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-test-renderer": "^16.13.1",

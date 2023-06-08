@@ -9,7 +9,6 @@ type IUseCounter = {
   decrement: () => void;
 };
 
-
 /**
  * Classic counter example to help understand the flow of this npm package
  *
@@ -52,16 +51,14 @@ export const useCounter = (initialValue: number = 0): IUseCounter => {
   const [count, setCount] = useState<number>(validatedInitialValue);
   const increment = useCallback(() => setCount((value) => value + 1), []);
   const decrement = useCallback(() => setCount((value) => value - 1), []);
-  const reset = useCallback(() => setCount(validatedInitialValue), [
-    validatedInitialValue,
-  ]);
+  const reset = useCallback(() => setCount(validatedInitialValue), [validatedInitialValue]);
   return { count, increment, decrement, reset };
 };
 
 useCounter.PropTypes = {
-  initialValue: PropTypes.number.isRequired,
+  initialValue: PropTypes.number.isRequired
 };
 
 useCounter.defaultProps = {
-  initialValue: 0,
+  initialValue: 0
 };
